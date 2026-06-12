@@ -133,42 +133,32 @@ class _PokemonPageState extends State<PokemonPage> {
 
   Widget statBox(String title, String value, IconData icon, Color color) {
     return Container(
-      height: 58,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.70),
+        color: Colors.white.withOpacity(0.65),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: color.withOpacity(0.25)),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: color, size: 22),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  value,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF3A3232),
-                    fontWeight: FontWeight.w900,
-                    fontSize: 15,
-                  ),
-                ),
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xFF7D6E6E),
-                    fontSize: 11,
-                  ),
-                ),
-              ],
+          const SizedBox(height: 6),
+          FittedBox(
+            child: Text(
+              value,
+              style: const TextStyle(
+                color: Color(0xFF3A3232),
+                fontWeight: FontWeight.w900,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Text(
+            title,
+            style: const TextStyle(
+              color: Color(0xFF7D6E6E),
+              fontSize: 11,
             ),
           ),
         ],
@@ -182,11 +172,11 @@ class _PokemonPageState extends State<PokemonPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = MediaQuery.of(context).size.width;
-        final isSmall = width < 390;
+        final isSmall = width < 380;
         final isTablet = width >= 700;
 
         final maxWidth = isTablet ? 620.0 : double.infinity;
-        final imageHeight = isSmall ? 125.0 : isTablet ? 220.0 : 170.0;
+        final imageHeight = isSmall ? 130.0 : isTablet ? 220.0 : 170.0;
         final titleSize = isSmall ? 22.0 : isTablet ? 32.0 : 27.0;
 
         return Center(
@@ -197,9 +187,9 @@ class _PokemonPageState extends State<PokemonPage> {
                 horizontal: isSmall ? 12 : 18,
                 vertical: 11,
               ),
-              padding: EdgeInsets.all(isSmall ? 14 : 20),
+              padding: EdgeInsets.all(isSmall ? 15 : 20),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.82),
+                color: Colors.white.withOpacity(0.78),
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(color: color.withOpacity(0.28)),
                 boxShadow: [
@@ -232,12 +222,14 @@ class _PokemonPageState extends State<PokemonPage> {
                         ),
                       ),
                       const Spacer(),
-                      Icon(Icons.favorite_rounded, color: color),
+                      Icon(
+                        Icons.favorite_rounded,
+                        color: color,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   FittedBox(
-                    fit: BoxFit.scaleDown,
                     child: Text(
                       pokemon.name.toUpperCase(),
                       maxLines: 1,
@@ -282,41 +274,19 @@ class _PokemonPageState extends State<PokemonPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
+                  GridView.count(
+                    crossAxisCount: isSmall ? 1 : 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: isSmall ? 4.5 : 1.35,
                     children: [
-                      SizedBox(
-                        width: isSmall ? double.infinity : 100,
-                        child: statBox(
-                          'Altura',
-                          '${pokemon.height}',
-                          Icons.height,
-                          color,
-                        ),
-                      ),
-                      SizedBox(
-                        width: isSmall ? double.infinity : 100,
-                        child: statBox(
-                          'Peso',
-                          '${pokemon.weight}',
-                          Icons.monitor_weight,
-                          color,
-                        ),
-                      ),
-                      SizedBox(
-                        width: isSmall ? double.infinity : 100,
-                        child: statBox(
-                          'EXP',
-                          '${pokemon.baseExperience}',
-                          Icons.flash_on,
-                          color,
-                        ),
-                      ),
+                      statBox('Altura', '${pokemon.height}', Icons.height, color),
+                      statBox('Peso', '${pokemon.weight}', Icons.monitor_weight, color),
+                      statBox('EXP', '${pokemon.baseExperience}', Icons.flash_on, color),
                     ],
                   ),
-
                   const SizedBox(height: 14),
                   Container(
                     width: double.infinity,
@@ -360,7 +330,7 @@ class _PokemonPageState extends State<PokemonPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = MediaQuery.of(context).size.width;
-        final isSmall = width < 390;
+        final isSmall = width < 380;
         final isTablet = width >= 700;
 
         return Container(
